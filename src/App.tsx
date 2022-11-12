@@ -15,11 +15,13 @@ import chevronDownIcon from "./assets/bxs-chevron-down.svg";
 import ReactPlayer from "react-player/youtube";
 import qs from "qs";
 import { css } from "@emotion/react";
+import {getQuery, getRandomNumber } from "./utilities/utilities";
+import { videoId } from "./utilities/videoId";
+import UrlCopy from "./components/urlCopy";
 
 export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const [clipboard, setClipboard] = useState(false);
   const [randomVideo, setRandomVideo] = useState({
     ateez: 0,
     blackPink: 0,
@@ -35,22 +37,9 @@ export default function App() {
     videoId: "lgulPsD_JGg",
   });
 
-  const categoryQuery = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
-  const onCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      await setClipboard(true);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const randomVideoHandler = () => {
     let result = 0;
-    switch (categoryQuery.category) {
+    switch (getQuery(location.search).category) {
       case "ateez":
         result = getRandomNumber(videoId.ateez.length);
         setRandomVideo({ ...randomVideo, ateez: result });
@@ -109,28 +98,14 @@ export default function App() {
     navigate(`?category=${currentCategory.artist}`);
   }, [currentCategory]);
 
-  useEffect(() => {
-    setTimeout(() => setClipboard(false), 3500);
-  }, [clipboard]);
-
   return (
-    <Container isControllerOpen={controllerOpen} clipboard={clipboard}>
+    <Container isControllerOpen={controllerOpen}>
       <aside>
         {controllerOpen ? (
           <div className="main-content-wrapper">
             <header>
               <h1>Biased!</h1>
-              <button className="share-button" onClick={onCopy}>
-                링크 복사하기
-              </button>
-              {clipboard && (
-                <p>
-                  <span role="img" aria-label="clipboard">
-                    📋
-                  </span>
-                  &nbsp; 링크를 복사했어요
-                </p>
-              )}
+              <UrlCopy/>
             </header>
             <section>
               <Clock
@@ -311,27 +286,6 @@ export default function App() {
   );
 }
 
-const getRandomNumber = (value: number) => {
-  return Math.floor(Math.random() * value);
-};
-
-const videoId = {
-  ateez: [
-    "HnNS-70L-4Y",
-    "X_v_Nr3Touk",
-    "lgulPsD_JGg",
-    "9SWUYyJ_u6M",
-    "pnXToZ80R9s",
-    "PehN7Xke73Q",
-    "WHVjFZep7uA",
-  ],
-  blackPink: ["7er3o_OYhXQ", "ggBu851GQBo"],
-  nct: ["oJC7En5uyAU"],
-  fromiseNine: ["anvbArGXSEo"],
-  tomorrowByTogether: ["qrutwnXCiZI", "1Z7TB5euybA"],
-  seventeen: ["RkY28nzTTF0", "OH5gk9meijg", "McI8XRypAEM", "mLyOdRTwDOc"],
-};
-
 const MinimizedController = styled.div`
   h1 {
     margin: 0;
@@ -345,7 +299,6 @@ const MinimizedController = styled.div`
 
 const Container = styled.main<{
   isControllerOpen: boolean;
-  clipboard: boolean;
 }>`
   position: relative;
   width: 100%;
@@ -392,54 +345,6 @@ const Container = styled.main<{
           font-weight: 900;
           color: #111111;
           letter-spacing: -0.7px;
-        }
-
-        button.share-button {
-          height: 34px;
-          padding: 4px 10px;
-          border: 2px solid #dddddd;
-          border-radius: 4px;
-          background: #ffffff;
-          color: #999999;
-          font-size: 12px;
-          font-weight: 700;
-          cursor: pointer;
-
-          :hover {
-            border: 2px solid #bfbfbf;
-            color: #555555;
-          }
-        }
-
-        p {
-          position: absolute;
-          top: 65px;
-          right: 20px;
-          padding: 4px 10px;
-          background: #ededed;
-          border: 2px solid #eeeeee;
-          border-radius: 4px;
-          font-size: 12px;
-          font-weight: 500;
-          color: #555555;
-          opacity: 0;
-          animation: ${(props) =>
-            props.clipboard ? "fadeInOut 1.5s ease-in" : "none"};
-        }
-
-        @keyframes fadeInOut {
-          0% {
-            opacity: 0;
-          }
-          15% {
-            opacity: 100%;
-          }
-          80% {
-            opacity: 80%;
-          }
-          100% {
-            opacity: 0;
-          }
         }
       }
 
