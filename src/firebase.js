@@ -25,3 +25,27 @@ const analytics = getAnalytics(firebase);
 const messaging = getMessaging(firebase);
 
 export { fireStore, messaging };
+
+
+// const test = async () => {
+//   try {
+//     const docRef = await addDoc(collection(fireStore, "users"), {
+//       first: "Ada",
+//       last: "Lovelace",
+//       born: 1815,
+//     });
+//     console.log("Document written with ID: ", docRef.id);
+//     const querySnapshot = await getDocs(collection(fireStore, "users"));
+//     querySnapshot.forEach((doc) => {
+//       console.log(`${doc.id} => ${doc.data()}`);
+//     });
+//   } catch (e) {
+//     console.error("Error adding document: ", e);
+//   }
+// };
+//
+// test();
+
+// useEffect(() => {
+//   navigate(`?category=${currentCategory.artist}`);
+// }, [currentCategory]);
