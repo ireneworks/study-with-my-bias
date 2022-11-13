@@ -9,8 +9,15 @@ interface Props {
 }
 
 export default function VolumeController({volumeControl, setVolumeControl}:Props) {
+    const onClick = () => {
+        if(volumeControl === 0) {
+          return setVolumeControl(50);
+        }
+        return setVolumeControl(0);
+    };
+
     return <Container isVolumeOn={volumeControl} volume={volumeControl}>
-        <button onClick={() => setVolumeControl(0)} />
+        <button onClick={onClick} />
         <input
             type="range"
             min="0"

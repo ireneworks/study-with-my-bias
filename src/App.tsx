@@ -60,7 +60,7 @@ export default function App() {
                   </a>
                 </li>
                 <li>
-                  <a href="#" target="_blank" rel='noreferrer'>문의하기</a>
+                  <a href="mailto:hello@ireneworks.com?subject=[문의] 문의합니다">문의하기</a>
                 </li>
               </ul>
               <p>Biased!는 LifeAt.io를 보고 영감을 받아 만들었습니다.</p>
