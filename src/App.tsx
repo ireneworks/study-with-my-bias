@@ -9,7 +9,7 @@ import chevronDownIcon from "./assets/bxs-chevron-down.svg";
 import ReactPlayer from "react-player/youtube";
 import { css } from "@emotion/react";
 import UrlCopy from "./components/urlCopy";
-import ArtistCategory from "./components/artistCategory";
+import ArtistsVideos from "./components/artistsVideos";
 import {getQuery} from "./utilities/utilities";
 import VolumeController from "./components/volumeController";
 
@@ -36,21 +36,14 @@ export default function App() {
                 ticking={true}
                 timezone="Asia/Seoul"
               />
-              <span role="img" aria-label="fire">
-                🔥 <strong>1</strong>
-              </span>
+              <span role="img" aria-label="fire">🔥 <strong>1</strong></span>
             </div>
-            <ArtistCategory />
+            <ArtistsVideos />
             <VolumeController volumeControl={volumeControl} setVolumeControl={setVolumeControl} />
           </div>
         ) : (
           <MinimizedController>
-            <h1>
-              Study with My Bias
-              <span role="img" aria-label="growing heart">
-                💗
-              </span>
-            </h1>
+            <h1>Study with My Bias <span role="img" aria-label="growing heart"> 💗</span></h1>
           </MinimizedController>
         )}
         <footer>
