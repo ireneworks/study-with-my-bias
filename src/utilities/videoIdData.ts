@@ -1,5 +1,6 @@
 export const videoIdData = {
     ateez: [
+        "YJq9aKBp7rk",
         "HnNS-70L-4Y",
         "X_v_Nr3Touk",
         "lgulPsD_JGg",
@@ -8,14 +9,11 @@ export const videoIdData = {
         "WHVjFZep7uA",
         "pnXToZ80R9s",
         "87azpD2hrps",
-        "YJq9aKBp7rk",
         "_jU4elR2iio",
         "xGmm35PBY38",
         "Ix-dXw4z-gQ",
         "XBQDpy5s_Yk",
         "ZALzBtfRF1g",
-
-
     ],
     blackPink: ["7er3o_OYhXQ", "ggBu851GQBo"],
     bts: ["iUpMyjRIihI", "v_tsuAmQF9Y", "DMh1MUQGcD8", "Sn2Gw2uga5E", "xRbHLBfwNkE"],

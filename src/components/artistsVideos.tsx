@@ -4,6 +4,7 @@ import styled from "@emotion/styled";
 import ateezLogo from "../assets/ateez_logo.png";
 import blackPinkLogo from "../assets/blackpink_logo.svg";
 import fromiseNineLogo from "../assets/fromise_logo.svg";
+import heartIcon from '../assets/bxs-heart.svg';
 import nctLogo from "../assets/NCT-Logo.png";
 import svtLogo from "../assets/svt_logo.svg";
 import txtLogo from "../assets/txt_logo.svg";
@@ -66,7 +67,8 @@ export default function ArtistsVideos() {
                 backgroundColor="#000000"
                 imageSrc={ateezLogo}
             >
-                <button onClick={() => onChangeCurrentArtistVideo(ATEEZ, randomVideoState.ateez)}>
+                <button className='like-button' />
+                <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(ATEEZ, randomVideoState.ateez)}>
                     <div className="profile-image" />
                     <h2>ATEEZ</h2>
                 </button>
@@ -76,7 +78,7 @@ export default function ArtistsVideos() {
                 backgroundColor="#000000"
                 imageSrc={blackPinkLogo}
             >
-                <button onClick={() => onChangeCurrentArtistVideo(BLACK_PINK, randomVideoState.blackPink)}>
+                <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(BLACK_PINK, randomVideoState.blackPink)}>
                     <div className="profile-image" />
                     <h2>BLACKPINK</h2>
                 </button>
@@ -86,7 +88,7 @@ export default function ArtistsVideos() {
                     backgroundColor="#000000"
                     imageSrc={btsLogo}
                 >
-                    <button onClick={() => onChangeCurrentArtistVideo(BTS, randomVideoState.bts)}>
+                    <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(BTS, randomVideoState.bts)}>
                         <div className="profile-image" />
                         <h2>BTS</h2>
                     </button>
@@ -96,7 +98,7 @@ export default function ArtistsVideos() {
                 backgroundColor="#38c4f5"
                 imageSrc={fromiseNineLogo}
             >
-                <button onClick={() => onChangeCurrentArtistVideo(FROMISE_9, randomVideoState.fromiseNine)}>
+                <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(FROMISE_9, randomVideoState.fromiseNine)}>
                     <div className="profile-image" />
                     <h2>Fromise_9</h2>
                 </button>
@@ -106,7 +108,7 @@ export default function ArtistsVideos() {
                 backgroundColor="#ffffff"
                 imageSrc={nctLogo}
             >
-                <button onClick={() => onChangeCurrentArtistVideo(NCT, randomVideoState.nct)}>
+                <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(NCT, randomVideoState.nct)}>
                     <div className="profile-image" />
                     <h2>NCT</h2>
                 </button>
@@ -116,7 +118,7 @@ export default function ArtistsVideos() {
                 backgroundColor="#92A8D1"
                 imageSrc={svtLogo}
             >
-                <button onClick={()=>onChangeCurrentArtistVideo(SEVENTEEN, randomVideoState.seventeen)}>
+                <button className="content-wrapper" onClick={()=>onChangeCurrentArtistVideo(SEVENTEEN, randomVideoState.seventeen)}>
                     <div className="profile-image" />
                     <h2>SEVENTEEN</h2>
                 </button>
@@ -126,7 +128,7 @@ export default function ArtistsVideos() {
                     backgroundColor="#000000"
                     imageSrc={sksLogo}
                 >
-                    <button onClick={()=>onChangeCurrentArtistVideo(STRAYKIDS, randomVideoState.strayKids)}>
+                    <button className="content-wrapper" onClick={()=>onChangeCurrentArtistVideo(STRAYKIDS, randomVideoState.strayKids)}>
                         <div className="profile-image" />
                         <h2>StrayKids</h2>
                     </button>
@@ -136,7 +138,7 @@ export default function ArtistsVideos() {
                 backgroundColor="#d4cfbc"
                 imageSrc={txtLogo}
             >
-                <button onClick={() => onChangeCurrentArtistVideo(TOMORROW_BY_TOGETHER, randomVideoState.tomorrowByTogether)}>
+                <button className="content-wrapper" onClick={() => onChangeCurrentArtistVideo(TOMORROW_BY_TOGETHER, randomVideoState.tomorrowByTogether)}>
                     <div className="profile-image" />
                     <h2>TOMORROW X TOGETHER</h2>
                 </button>
@@ -173,7 +175,7 @@ const Container = styled.div`
       top:0;
       left:0;
       width: 40px;
-      height: 140px;
+      height: 150px;
       padding:0;
       border: none;
       background: transparent;
@@ -188,7 +190,7 @@ const Container = styled.div`
       top:0;
       right:0;
       width: 40px;
-      height: 140px;
+      height: 150px;
       padding:0;
       background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%);
       border: none;
@@ -219,29 +221,39 @@ const ArtistCategory = styled.li<{
     imageSrc: string;
     backgroundColor: string;
 }>`
+  position: relative;
   list-style: none;
   
   &:last-child {
     margin-right: 30px;
   }
   
-  button {
+  button.like-button {
+    position: absolute;
+    top: 2px;
+    right: 1px;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent url(${heartIcon}) center / 20px no-repeat;
+    cursor: pointer;
+  }
+  
+  button.content-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 100px;
     max-width: 150px;
-    min-height: 140px;
+    min-height: 150px;
     margin: 0;
-    padding: 12px;
+    padding: 18px 12px 12px 12px;
     box-sizing: border-box;
     border-radius: 6px;
-    border: 2px solid ${(props) => (props.isActive ? "#02c76e" : "#dddddd")};
-    background: rgba(
-      ${(props) => (props.isActive ? "2, 199, 110, 0.1" : "255, 255, 255, 1")}
-    );
+    border: 2px solid ${(props) => (props.isActive ? "#777777" : "#dddddd")};
+    background: ${(props) => (props.isActive ? "#f3f3f3" : "#ffffff")};
     cursor: pointer;
-    
+
     .profile-image {
       display: inline-block;
       margin: 0 0 12px 0;
@@ -249,19 +261,18 @@ const ArtistCategory = styled.li<{
       height: 52px;
       border-radius: 100px;
       box-sizing: border-box;
-      background: ${(props) => props.backgroundColor}
-        url(${(props) => props.imageSrc}) center / 34px no-repeat;
+      background: ${(props) => props.backgroundColor} url(${(props) => props.imageSrc}) center / 34px no-repeat;
       border: ${(props) => {
-    if (props.backgroundColor === "#ffffff" && props.isActive) {
+        if (props.backgroundColor === "#ffffff" && props.isActive) {
+          return "none";
+        }
+        if (props.backgroundColor === "#ffffff" && !props.isActive) {
+          return "1px solid #dddddd";
+        }
         return "none";
+      }};
     }
-    if (props.backgroundColor === "#ffffff" && !props.isActive) {
-        return "1px solid #dddddd";
-    }
-    return "none";
-}};
-      
-  }
+
     h2 {
       margin: 0;
       font-size: 14px;
@@ -269,6 +280,7 @@ const ArtistCategory = styled.li<{
       letter-spacing: -0.7px;
       color: #111111;
     }
-    
-    
+
+  }
+
 `;

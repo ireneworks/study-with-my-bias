@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
-import volumeOnIcon from "../assets/bx-volume-full.svg";
-import volumeOffIcon from "../assets/bx-volume-mute.svg";
+import volumeOnIcon from "../assets/bxs-volume-full.svg";
+import volumeOffIcon from "../assets/bxs-volume-mute.svg";
 
 interface Props {
     volumeControl: number;
@@ -62,7 +62,7 @@ const Container = styled.div<{ isVolumeOn: Number; volume: Number }>`
       width: 16px;
       height: 16px;
       border-radius: 100px;
-      background: #02c76e;
+      background: #333333;
       box-shadow: 0 0 12px -4px rgba(0,0,0,1);
       cursor: pointer;
     }
@@ -71,7 +71,7 @@ const Container = styled.div<{ isVolumeOn: Number; volume: Number }>`
       height: 6px;
       background: ${(props) =>
     props.volume
-        ? `linear-gradient(to right, #02c76e ${props.volume}%, #dddddd ${props.volume}% 100%)`
+        ? `linear-gradient(to right, #333333 ${props.volume}%, #dddddd ${props.volume}% 100%)`
         : "#E5E7EB"};
       opacity: ${(props) => (props.isVolumeOn !== 0 ? "1" : "0.5")};
       border-radius: 3rem;

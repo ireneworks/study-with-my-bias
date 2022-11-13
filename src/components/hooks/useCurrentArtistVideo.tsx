@@ -49,7 +49,7 @@ function Reducer(state:CurrentArtistVideo, action:Action) {
 export default function useCurrentArtistVideo(){
     const [state, dispatch] = useReducer(Reducer, {
         artist: ATEEZ,
-        videoId: "lgulPsD_JGg"
+        videoId: "YJq9aKBp7rk"
     });
 
     const onChange = (artist: ArtistNames, randomVideoNumber: number) => dispatch({artist, randomVideoNumber});
