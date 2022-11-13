@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Clock from "react-live-clock";
 import { useLocation } from "react-router";
-import volumeOnIcon from "./assets/bx-volume-full.svg";
-import volumeOffIcon from "./assets/bx-volume-mute.svg";
 import chevronUpIcon from "./assets/bxs-chevron-up.svg";
 import chevronDownIcon from "./assets/bxs-chevron-down.svg";
 import ReactPlayer from "react-player/youtube";
-import { css } from "@emotion/react";
 import UrlCopy from "./components/urlCopy";
 import ArtistsVideos from "./components/artistsVideos";
 import {getQuery} from "./utilities/utilities";
@@ -23,7 +20,6 @@ export default function App() {
   return (
     <Container isControllerOpen={controllerOpen}>
       <aside>
-        {controllerOpen ? (
           <div className="main-content-wrapper">
             <header>
               <h1>Biased!</h1>
@@ -39,13 +35,10 @@ export default function App() {
               <span role="img" aria-label="fire">🔥 <strong>1</strong></span>
             </div>
             <ArtistsVideos />
+              <button>멤버별 영상</button>
+              <button>그룹 영상</button>
             <VolumeController volumeControl={volumeControl} setVolumeControl={setVolumeControl} />
           </div>
-        ) : (
-          <MinimizedController>
-            <h1>Study with My Bias <span role="img" aria-label="growing heart"> 💗</span></h1>
-          </MinimizedController>
-        )}
         <footer>
           {controllerOpen && (
             <div>
@@ -72,6 +65,12 @@ export default function App() {
           />
         </footer>
       </aside>
+        <MinimalController isControllerOpen={controllerOpen}>
+            <h1>Study with My Bias <span role="img" aria-label="growing heart"> 💗</span></h1>
+            <button className='maximize-button' onClick={() => setControllerOpen(!controllerOpen)}/>
+        </MinimalController>
+        <div className='top-wrapper'/>
+        <div className='bottom-wrapper'/>
       <ReactPlayer
         url={`https://www.youtube.com/watch?v=${query}`}
         volume={volumeControl / 100}
@@ -100,32 +99,21 @@ const Container = styled.main<{
   height: 100%;
 
   aside {
-    display: flex;
+    display: ${(props) => props.isControllerOpen ? "flex" : "none"};
     justify-content: space-between;
     flex-direction: column;
     position: fixed;
     top: 20px;
     left: 20px;
+    bottom: 20px;
+    width: 320px;
+    padding: 30px 20px;
     box-sizing: border-box;
     background: #ffffff;
     border-radius: 12px;
     box-shadow: -1px -1px 47px -21px rgba(0, 0, 0, 0.5);
     transition: all 0.2s ease-out;
-
-    ${(props) => {
-      if (!props.isControllerOpen) {
-        return css`
-          width: 320px;
-          height: 80px;
-          padding: 16px 12px;
-        `;
-      }
-      return css`
-        bottom: 20px;
-        width: 320px;
-        padding: 30px 20px;
-      `;
-    }};
+    z-index: 2;
 
     .main-content-wrapper {
       
@@ -202,20 +190,47 @@ const Container = styled.main<{
         width: 100%;
         height: 24px;
         margin-top: 12px;
-        background: transparent
-          url(${(props) =>
-            props.isControllerOpen ? chevronUpIcon : chevronDownIcon})
-          center / 20px no-repeat;
+        background: transparent url(${chevronUpIcon}) center / 20px no-repeat;
         border: none;
-        border-radius: 4px;
         transition: all 0.2s;
         cursor: pointer;
       }
     }
   }
+  
+    
+    div.top-wrapper {
+      position: absolute;
+      top:0;
+      width: 100%;
+      height: 60px;
+      background: #000000;
+    }
+    
+    div.bottom-wrapper {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80px;
+      background: #232527;
+    }
 `;
 
-const MinimizedController = styled.div`
+const MinimalController = styled.div<{isControllerOpen:boolean}>`
+  display: ${(props) => !props.isControllerOpen ? "block" : "none"};
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 320px;
+  height: 80px;
+  padding: 16px 12px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: -1px -1px 47px -21px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease-out;
+  z-index: 2;
+  
   h1 {
     margin: 0;
     text-align: center;
@@ -223,5 +238,14 @@ const MinimizedController = styled.div`
     font-weight: 900;
     letter-spacing: -0.2px;
     color: #111111;
+  }
+  
+  button.maximize-button {
+    width: 100%;
+    height: 24px;
+    margin-top: 12px;
+    background: transparent url(${chevronDownIcon}) center / 20px no-repeat;
+    border: none;
+    cursor: pointer;
   }
 `;

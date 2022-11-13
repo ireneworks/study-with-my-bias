@@ -1,1 +1,1 @@
-type ArtistNames = "ateez" | "blackPink" | "fromiseNine" | "nct" | "seventeen" | "tomorrowByTogether"
+type ArtistNames = "ateez" | "blackPink" | "bts" | "fromiseNine" | "nct" | "seventeen" | "strayKids" | "tomorrowByTogether"

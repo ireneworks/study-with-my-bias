@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 import {useNavigate} from "react-router";
 import styled from "@emotion/styled";
 import ateezLogo from "../assets/ateez_logo.png";
@@ -7,18 +7,46 @@ import fromiseNineLogo from "../assets/fromise_logo.svg";
 import nctLogo from "../assets/NCT-Logo.png";
 import svtLogo from "../assets/svt_logo.svg";
 import txtLogo from "../assets/txt_logo.svg";
-import {ATEEZ, BLACK_PINK, FROMISE_9, NCT, SEVENTEEN, TOMORROW_BY_TOGETHER} from "../constants/constantArtistNames";
+import btsLogo from '../assets/bts_logo.svg';
+import sksLogo from '../assets/sks_logo.svg'
+import chevronRight from '../assets/bxs-chevron-right.svg'
+import chevronLeft from '../assets/bxs-chevron-left.svg'
+import shuffleIcon from '../assets/bx-shuffle.svg'
+import {
+    ATEEZ,
+    BLACK_PINK,
+    BTS,
+    FROMISE_9,
+    NCT,
+    SEVENTEEN, STRAYKIDS,
+    TOMORROW_BY_TOGETHER
+} from "../constants/constantArtistNames";
 import useArtistRandomVideoReducer from "./hooks/useArtistRandomVideoReducer";
 import useCurrentArtistVideo from "./hooks/useCurrentArtistVideo";
 import {getArtistVideoRandomNumber} from "../utilities/utilities";
 
 export default function ArtistsVideos() {
     const navigate = useNavigate();
+    const scrollRef = useRef<HTMLUListElement>(null);
     const {randomVideoState, onChangeRandomArtistVideos} = useArtistRandomVideoReducer();
     const {currentArtistVideoState, onChangeCurrentArtistVideo} = useCurrentArtistVideo();
 
     const isSameArtist = (target:ArtistNames):boolean => {
         return currentArtistVideoState.artist === target;
+    }
+
+    const onScrollRight = () => {
+      scrollRef.current?.scrollBy({
+          left: 110,
+          behavior: 'smooth'
+      } )
+    }
+
+    const onScrollLeft = () => {
+        scrollRef.current?.scrollBy({
+            left: -110,
+            behavior: 'smooth'
+        } )
     }
 
     useEffect(() => {
@@ -31,7 +59,8 @@ export default function ArtistsVideos() {
     }, [randomVideoState])
 
     return <Container>
-        <ul>
+        <main>
+            <ul ref={scrollRef}>
             <ArtistCategory
                 isActive={isSameArtist(ATEEZ)}
                 backgroundColor="#000000"
@@ -52,6 +81,16 @@ export default function ArtistsVideos() {
                     <h2>BLACKPINK</h2>
                 </button>
             </ArtistCategory>
+                <ArtistCategory
+                    isActive={isSameArtist(BTS)}
+                    backgroundColor="#000000"
+                    imageSrc={btsLogo}
+                >
+                    <button onClick={() => onChangeCurrentArtistVideo(BTS, randomVideoState.bts)}>
+                        <div className="profile-image" />
+                        <h2>BTS</h2>
+                    </button>
+                </ArtistCategory>
             <ArtistCategory
                 isActive={isSameArtist(FROMISE_9)}
                 backgroundColor="#38c4f5"
@@ -82,6 +121,16 @@ export default function ArtistsVideos() {
                     <h2>SEVENTEEN</h2>
                 </button>
             </ArtistCategory>
+                <ArtistCategory
+                    isActive={isSameArtist(STRAYKIDS)}
+                    backgroundColor="#000000"
+                    imageSrc={sksLogo}
+                >
+                    <button onClick={()=>onChangeCurrentArtistVideo(STRAYKIDS, randomVideoState.strayKids)}>
+                        <div className="profile-image" />
+                        <h2>StrayKids</h2>
+                    </button>
+                </ArtistCategory>
             <ArtistCategory
                 isActive={isSameArtist(TOMORROW_BY_TOGETHER)}
                 backgroundColor="#d4cfbc"
@@ -93,31 +142,67 @@ export default function ArtistsVideos() {
                 </button>
             </ArtistCategory>
         </ul>
+            <button className='prev-button' onClick={onScrollLeft}/>
+            <button className='next-button' onClick={onScrollRight}/>
+        </main>
         <button className="random-video" onClick={() => onChangeRandomArtistVideos(currentArtistVideoState.artist)} >
-        다른 멤버는 어때요?
+        다른 멤버 변경
     </button>
     </Container>
 }
 
 const Container = styled.div`
+  position: relative;
   
-  ul {   
-    display: flex;
-    gap: 12px;
-    margin: 32px 0 20px 0;
-    padding: 0;
-    overflow-y: hidden;
+  main {
+    
+    ul {
+      display: flex;
+      gap: 12px;
+      margin: 32px 0 20px 0;
+      padding: 0;
+      overflow-y: hidden;
 
-    ::-webkit-scrollbar {
-      display: none;
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    button.prev-button {
+      position: absolute;
+      top:0;
+      left:0;
+      width: 40px;
+      height: 140px;
+      padding:0;
+      border: none;
+      background: transparent;
+
+      &:hover {
+        background: url(${chevronLeft}) left 0 top 60px / 20px no-repeat, linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
+      }
+    }
+    
+    button.next-button {
+      position: absolute;
+      top:0;
+      right:0;
+      width: 40px;
+      height: 140px;
+      padding:0;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%);
+      border: none;
+      
+      &:hover {
+        background: url(${chevronRight}) right 0 top 60px/ 20px no-repeat, linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 80%);
+      }
     }
   }
   
   button.random-video {
-    width: 100%;
     margin-bottom: 12px;
-    padding: 8px 12px 8px 0;
-    background: #ffffff;
+    padding: 8px 12px 8px 26px;
+    background: #ffffff url(${shuffleIcon}) left 0 top 5px / 20px no-repeat;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -126,7 +211,6 @@ const Container = styled.div`
     color: #888888;
     letter-spacing: -0.3px;
     text-align: left;
-    text-decoration-line: underline;
   }
 `;
 
@@ -136,7 +220,11 @@ const ArtistCategory = styled.li<{
     backgroundColor: string;
 }>`
   list-style: none;
-
+  
+  &:last-child {
+    margin-right: 30px;
+  }
+  
   button {
     display: flex;
     flex-direction: column;
@@ -181,4 +269,6 @@ const ArtistCategory = styled.li<{
       letter-spacing: -0.7px;
       color: #111111;
     }
+    
+    
 `;
