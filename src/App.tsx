@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "@emotion/styled";
 import Clock from "react-live-clock";
 import { useLocation } from "react-router";
@@ -9,90 +9,89 @@ import UrlCopy from "./components/urlCopy";
 import ArtistsVideos from "./components/artistsVideos";
 import {getQuery} from "./utilities/utilities";
 import VolumeController from "./components/volumeController";
+import Timer from "./components/timer";
 
 export default function App() {
     const location = useLocation();
-  const [controllerOpen, setControllerOpen] = useState(true);
-  const [volumeControl, setVolumeControl] = useState(50);
+    const [controllerOpen, setControllerOpen] = useState(true);
+    const [volumeControl, setVolumeControl] = useState(50);
+    const query = getQuery(location.search).id;
 
-  const query = getQuery(location.search).id
-
-  return (
-    <Container isControllerOpen={controllerOpen}>
-      <aside>
-          <div className="main-content-wrapper">
-            <header>
-              <h1>Biased!</h1>
-              <UrlCopy/>
-            </header>
-            <div className='live-wrapper'>
-              <Clock
-                className="clock-wrapper"
-                format="hh:mm:ss A"
-                ticking={true}
-                timezone="Asia/Seoul"
-              />
-              <span role="img" aria-label="fire">🔥 <strong>1</strong></span>
-            </div>
-            <ArtistsVideos />
-              <button>멤버별 영상</button>
-              <button>그룹 영상</button>
-            <VolumeController volumeControl={volumeControl} setVolumeControl={setVolumeControl} />
-          </div>
-        <footer>
-          {controllerOpen && (
-            <div>
-              <ul>
-                <li>
-                  <a
-                    href="https://forms.gle/vFkqj8wUb599xnE16"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    나의 최애 요청
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto:hello@ireneworks.com?subject=[문의] 문의합니다">문의하기</a>
-                </li>
-              </ul>
-              <p>Biased!는 LifeAt.io를 보고 영감을 받아 만들었습니다.</p>
-            </div>
-          )}
-          <button
-            className="minimize-button"
-            onClick={() => setControllerOpen(!controllerOpen)}
-          />
-        </footer>
-      </aside>
-        <MinimalController isControllerOpen={controllerOpen}>
-            <h1>Study with My Bias <span role="img" aria-label="growing heart"> 💗</span></h1>
-            <button className='maximize-button' onClick={() => setControllerOpen(!controllerOpen)}/>
-        </MinimalController>
-        <div className='top-wrapper'/>
-        <div className='bottom-wrapper'/>
-      <ReactPlayer
-        url={`https://www.youtube.com/watch?v=${query}`}
-        volume={volumeControl / 100}
-        playing={true}
-        loop={true}
-        width="100%"
-        height="100%"
-        config={
-            {
-                playerVars: {
-                    cc_load_policy: 0,
-                    modestbranding: 1,
-                    rel: 0,
-                }}
-        }
-      />
-    </Container>
-  );
+    return (
+        <Container isControllerOpen={controllerOpen}>
+            <aside>
+                <div className="main-content-wrapper">
+                    <header>
+                        <h1>Biased!</h1>
+                        <UrlCopy/>
+                    </header>
+                    <div className='live-wrapper'>
+                        <Clock
+                            className="clock-wrapper"
+                            format="hh:mm:ss A"
+                            ticking={true}
+                            timezone="Asia/Seoul"
+                        />
+                        <span role="img" aria-label="fire">🔥 <strong>1</strong></span>
+                    </div>
+                    <ArtistsVideos/>
+                    <VolumeController volumeControl={volumeControl} setVolumeControl={setVolumeControl}/>
+                </div>
+                <footer>
+                    {controllerOpen && (
+                        <div>
+                            <ul>
+                                <li>
+                                    <a
+                                        href="https://forms.gle/vFkqj8wUb599xnE16"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        나의 최애 요청
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="mailto:hello@ireneworks.com?subject=[문의] 문의합니다">문의하기</a>
+                                </li>
+                            </ul>
+                            <p>Biased!는 LifeAt.io를 보고 영감을 받아 만들었습니다.</p>
+                        </div>
+                    )}
+                    <button
+                        className="minimize-button"
+                        onClick={() => setControllerOpen(!controllerOpen)}
+                    />
+                </footer>
+            </aside>
+            <MinimalController isControllerOpen={controllerOpen}>
+                <h1>Study with My Bias <span role="img" aria-label="growing heart"> 💗</span></h1>
+                <button className='maximize-button' onClick={() => setControllerOpen(!controllerOpen)}/>
+            </MinimalController>
+            <div className='top-wrapper'><Timer/></div>
+            <div className='bottom-wrapper'/>
+            <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${query}`}
+                volume={volumeControl / 100}
+                playing={true}
+                loop={true}
+                width="100%"
+                height="100%"
+                config={
+                    {
+                        playerVars: {
+                            cc_load_policy: 0,
+                            modestbranding: 1,
+                            rel: 0,
+                        }
+                    }
+                }
+            />
+        </Container>
+    );
 }
 
 const Container = styled.main<{
-  isControllerOpen: boolean;
+    isControllerOpen: boolean;
 }>`
   position: relative;
   width: 100%;
@@ -116,7 +115,7 @@ const Container = styled.main<{
     z-index: 2;
 
     .main-content-wrapper {
-      
+
       header {
         display: flex;
         justify-content: space-between;
@@ -133,7 +132,7 @@ const Container = styled.main<{
       }
 
       div.live-wrapper {
-        
+
         display: flex;
         justify-content: space-between;
 
@@ -153,7 +152,7 @@ const Container = styled.main<{
     }
 
     footer {
-      
+
       ul {
         display: flex;
         align-items: center;
@@ -197,26 +196,37 @@ const Container = styled.main<{
       }
     }
   }
-  
-    
-    div.top-wrapper {
-      position: absolute;
-      top:0;
-      width: 100%;
-      height: 60px;
-      background: #000000;
+
+
+  div.top-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: #000000;
+
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555555;
     }
-    
-    div.bottom-wrapper {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 80px;
-      background: #232527;
-    }
+  }
+
+  div.bottom-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 80px;
+    background: #232527;
+  }
 `;
 
-const MinimalController = styled.div<{isControllerOpen:boolean}>`
+const MinimalController = styled.div<{ isControllerOpen: boolean }>`
   display: ${(props) => !props.isControllerOpen ? "block" : "none"};
   position: fixed;
   top: 20px;
@@ -230,7 +240,7 @@ const MinimalController = styled.div<{isControllerOpen:boolean}>`
   box-shadow: -1px -1px 47px -21px rgba(0, 0, 0, 0.5);
   transition: all 0.2s ease-out;
   z-index: 2;
-  
+
   h1 {
     margin: 0;
     text-align: center;
@@ -239,7 +249,7 @@ const MinimalController = styled.div<{isControllerOpen:boolean}>`
     letter-spacing: -0.2px;
     color: #111111;
   }
-  
+
   button.maximize-button {
     width: 100%;
     height: 24px;

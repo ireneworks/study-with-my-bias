@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useNavigate} from "react-router";
 import styled from "@emotion/styled";
 import ateezLogo from "../assets/ateez_logo.png";
@@ -25,10 +25,15 @@ import {
 import useArtistRandomVideoReducer from "./hooks/useArtistRandomVideoReducer";
 import useCurrentArtistVideo from "./hooks/useCurrentArtistVideo";
 import {getArtistVideoRandomNumber} from "../utilities/utilities";
+import {collection, getDocs} from "firebase/firestore/lite";
+import {db} from "../firebase";
+import firebase from "firebase/compat/app";
+import {Book, bookConverter} from "../module/firebaseConverter";
 
 export default function ArtistsVideos() {
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLUListElement>(null);
+    const [artistVideos ,setArtistVideos] = useState<ArtistCategory[]>([]);
     const {randomVideoState, onChangeRandomArtistVideos} = useArtistRandomVideoReducer();
     const {currentArtistVideoState, onChangeCurrentArtistVideo} = useCurrentArtistVideo();
 
@@ -50,6 +55,21 @@ export default function ArtistsVideos() {
         } )
     }
 
+    async function getBooks(): Promise<ArtistCategory> {
+        const collRef = await firebase.firestore()
+            .collection('artistVideos')
+            .withConverter(bookConverter)
+            .doc().get();
+        const book = collRef.data()
+        if (!book) {
+            throw new Error()
+        }
+        return  book;
+    }
+
+   console.log(getBooks())
+
+
     useEffect(() => {
         navigate(`?artist=${currentArtistVideoState.artist}&id=${currentArtistVideoState.videoId}`);
         }, [currentArtistVideoState]);
@@ -61,6 +81,9 @@ export default function ArtistsVideos() {
 
     return <Container>
         <main>
+            {/*{artistVideos.map((artist) => (*/}
+            {/*    <p>{artist.artistName}</p>*/}
+            {/*))}*/}
             <ul ref={scrollRef}>
             <ArtistCategory
                 isActive={isSameArtist(ATEEZ)}
@@ -147,6 +170,8 @@ export default function ArtistsVideos() {
             <button className='prev-button' onClick={onScrollLeft}/>
             <button className='next-button' onClick={onScrollRight}/>
         </main>
+        <button>멤버별 영상</button>
+        <button>그룹 영상</button>
         <button className="random-video" onClick={() => onChangeRandomArtistVideos(currentArtistVideoState.artist)} >
         다른 멤버 변경
     </button>
@@ -161,7 +186,7 @@ const Container = styled.div`
     ul {
       display: flex;
       gap: 12px;
-      margin: 32px 0 20px 0;
+      margin: 28px 0 20px 0;
       padding: 0;
       overflow-y: hidden;
 
