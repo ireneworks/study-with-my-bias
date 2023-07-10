@@ -1,33 +1,36 @@
 import React from "react";
 import styled from "@emotion/styled";
-import volumeOnIcon from "../assets/bxs-volume-full.svg";
-import volumeOffIcon from "../assets/bxs-volume-mute.svg";
+import volumeOnIcon from "../../../assets/bxs-volume-full.svg";
+import volumeOffIcon from "../../../assets/bxs-volume-mute.svg";
 
 interface Props {
-    volumeControl: number;
-    setVolumeControl(value:number):void;
+  volumeControl: number;
+  setVolumeControl(value: number): void;
 }
 
-export default function VolumeController({volumeControl, setVolumeControl}:Props) {
-    const onClick = () => {
-        if(volumeControl === 0) {
-          return setVolumeControl(50);
-        }
-        return setVolumeControl(0);
-    };
+export default function VolumeController({
+  volumeControl,
+  setVolumeControl,
+}: Props) {
+  const onClick = () => {
+    if (volumeControl === 0) {
+      return setVolumeControl(50);
+    }
+    return setVolumeControl(0);
+  };
 
-    return <Container isVolumeOn={volumeControl} volume={volumeControl}>
-        <button onClick={onClick} />
-        <input
-            type="range"
-            min="0"
-            max="100"
-            value={volumeControl}
-            onChange={(e) =>
-                setVolumeControl(Number(e.currentTarget.value))
-            }
-        />
+  return (
+    <Container isVolumeOn={volumeControl} volume={volumeControl}>
+      <button onClick={onClick} />
+      <input
+        type="range"
+        min="0"
+        max="100"
+        value={volumeControl}
+        onChange={(e) => setVolumeControl(Number(e.currentTarget.value))}
+      />
     </Container>
+  );
 }
 
 const Container = styled.div<{ isVolumeOn: Number; volume: Number }>`
@@ -70,9 +73,9 @@ const Container = styled.div<{ isVolumeOn: Number; volume: Number }>`
     ::-webkit-slider-runnable-track {
       height: 6px;
       background: ${(props) =>
-    props.volume
-        ? `linear-gradient(to right, #333333 ${props.volume}%, #dddddd ${props.volume}% 100%)`
-        : "#E5E7EB"};
+        props.volume
+          ? `linear-gradient(to right, #333333 ${props.volume}%, #dddddd ${props.volume}% 100%)`
+          : "#E5E7EB"};
       opacity: ${(props) => (props.isVolumeOn !== 0 ? "1" : "0.5")};
       border-radius: 3rem;
       transition: all 0.3s;

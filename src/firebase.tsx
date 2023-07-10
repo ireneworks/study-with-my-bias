@@ -1,8 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore/lite";
-import { getAnalytics } from "firebase/analytics";
 import { getMessaging } from "firebase/messaging";
-
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -14,10 +12,8 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
-
 const firebase = initializeApp(firebaseConfig);
 const db = getFirestore(firebase);
-const analytics = getAnalytics(firebase);
 const messaging = getMessaging(firebase);
 
 export { db, messaging };
