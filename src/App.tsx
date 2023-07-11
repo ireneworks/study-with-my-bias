@@ -12,7 +12,7 @@ export default function App() {
 
   return (
     <Container>
-      <Controller />
+      <Controller volumeControl={volumeControl} setVolumeControl={setVolumeControl} />
       <ReactPlayer
         url={`https://www.youtube.com/watch?v=${query}`}
         volume={volumeControl / 100}
